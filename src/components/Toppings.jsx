@@ -12,8 +12,29 @@ const Toppings = ({ addTopping, pizza }) => {
     "tomatoes",
   ];
 
+  const containerVariants = {
+    hidden: {
+      opacity: 0,
+      x: "100vw",
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { type: "spring", delay: 0.5 },
+    },
+  };
+  const nextVariants = {
+    hidden: { x: "-100vw" },
+    visible: { x: 0, transition: { type: "spring", stiffness: 120 } },
+  };
+
   return (
-    <div className="toppings container">
+    <motion.div
+      variants={containerVariants}
+      initial={"hidden"}
+      animate={"visible"}
+      className="toppings container"
+    >
       <h3>Step 2: Choose Toppings</h3>
       <ul>
         {toppings.map((topping) => {
@@ -31,21 +52,25 @@ const Toppings = ({ addTopping, pizza }) => {
         })}
       </ul>
 
-      <Link to="/order">
-        <motion.button
-          transition={{ delay: 0.2, type: "spring", stiffness: 120 }}
-          whileHover={{
-            scale: 1.07,
-            backgroundColor: "white",
-            color: "rgba(100, 0, 123, 1)",
-            textShadow: "0px 0px 8px rgb(255, 255, 255)",
-            boxShadow: "0px 0px 8px rgb(255, 255, 255)",
-          }}
-        >
-          Order
-        </motion.button>
-      </Link>
-    </div>
+      {pizza.toppings.length > 0 ? (
+        <motion.div variants={nextVariants}>
+          <Link to="/order">
+            <motion.button
+              transition={{ delay: 0.2, type: "spring", stiffness: 120 }}
+              whileHover={{
+                scale: 1.07,
+                backgroundColor: "white",
+                color: "rgba(100, 0, 123, 1)",
+                textShadow: "0px 0px 8px rgb(255, 255, 255)",
+                boxShadow: "0px 0px 8px rgb(255, 255, 255)",
+              }}
+            >
+              Order
+            </motion.button>
+          </Link>
+        </motion.div>
+      ) : null}
+    </motion.div>
   );
 };
 
