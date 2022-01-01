@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -12,11 +12,16 @@ const containerVariants = {
     x: 0,
     transition: { type: "spring", delay: 0.5 },
   },
+  exit: { x: "-100vw", transition: { ease: "easeInOut" } },
 };
 
 const nextVariants = {
   hidden: { x: "-100vw" },
   visible: { x: 0, transition: { type: "spring", stiffness: 120 } },
+  exit: {
+    x: ["0vw", "10vw", "-100vw"],
+    transition: { type: "spring", stiffness: 120 },
+  },
 };
 
 const buttonVariants = {
@@ -45,6 +50,7 @@ const Base = ({ addBase, pizza }) => {
       variants={containerVariants}
       initial={"hidden"}
       animate={"visible"}
+      exit="exit"
       className="base container"
     >
       <h3>Step 1: Choose Your Base</h3>
@@ -65,15 +71,23 @@ const Base = ({ addBase, pizza }) => {
         })}
       </ul>
 
-      {pizza.base && (
-        <motion.div variants={nextVariants} className="next">
-          <Link to="/toppings">
-            <motion.button variants={buttonVariants} whileHover="hover">
-              Next
-            </motion.button>
-          </Link>
-        </motion.div>
-      )}
+      <AnimatePresence>
+        {pizza.base && (
+          <motion.div
+            variants={nextVariants}
+            className="next"
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            <Link to="/toppings">
+              <motion.button variants={buttonVariants} whileHover="hover">
+                Next
+              </motion.button>
+            </Link>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };

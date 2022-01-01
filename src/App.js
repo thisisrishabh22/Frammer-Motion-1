@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./components/Header";
 import Home from "./components/Home";
 import Base from "./components/Base";
 import Toppings from "./components/Toppings";
 import Order from "./components/Order";
-import { Route, Routes } from "react-router";
-import { BrowserRouter as Router } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router";
+import { AnimatePresence } from "framer-motion";
 
 function App() {
   const [pizza, setPizza] = useState({ base: "", toppings: [] });
@@ -26,24 +26,28 @@ function App() {
     setPizza({ ...pizza, toppings: newToppings });
   };
 
+  const location = useLocation();
+
   return (
-    <Router>
+    <>
       <Header />
-      <Routes>
-        <Route exact path="/">
-          <Route index element={<Home />} />
-          <Route
-            path="/base"
-            element={<Base addBase={addBase} pizza={pizza} />}
-          />
-          <Route
-            path="/toppings"
-            element={<Toppings addTopping={addTopping} pizza={pizza} />}
-          />
-          <Route path="order" element={<Order pizza={pizza} />} />
-        </Route>
-      </Routes>
-    </Router>
+      <AnimatePresence exitBeforeEnter>
+        <Routes location={location} key={location.key}>
+          <Route exact path="/">
+            <Route index element={<Home />} />
+            <Route
+              path="/base"
+              element={<Base addBase={addBase} pizza={pizza} />}
+            />
+            <Route
+              path="/toppings"
+              element={<Toppings addTopping={addTopping} pizza={pizza} />}
+            />
+            <Route path="order" element={<Order pizza={pizza} />} />
+          </Route>
+        </Routes>
+      </AnimatePresence>
+    </>
   );
 }
 
