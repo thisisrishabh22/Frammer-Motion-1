@@ -19,8 +19,26 @@ const nextVariants = {
   visible: { x: 0, transition: { type: "spring", stiffness: 120 } },
 };
 
+const buttonVariants = {
+  hover: {
+    scale: 1.07,
+    backgroundColor: "white",
+    color: "rgba(100, 0, 123, 1)",
+    textShadow: "0px 0px 8px rgb(255, 255, 255)",
+    boxShadow: "0px 0px 8px rgb(255, 255, 255)",
+    transition: {
+      delay: 0.2,
+      type: "spring",
+      stiffness: 120,
+      yoyo: Infinity,
+    },
+  },
+};
+
 const Base = ({ addBase, pizza }) => {
   const bases = ["Classic", "Thin & Crispy", "Thick Crust"];
+
+  document.title = "Add Base | Pizza Joint";
 
   return (
     <motion.div
@@ -48,21 +66,9 @@ const Base = ({ addBase, pizza }) => {
       </ul>
 
       {pizza.base && (
-        <motion.div
-          variants={nextVariants}
-          className="next"
-        >
+        <motion.div variants={nextVariants} className="next">
           <Link to="/toppings">
-            <motion.button
-              transition={{ delay: 0.2, type: "spring", stiffness: 120 }}
-              whileHover={{
-                scale: 1.07,
-                backgroundColor: "white",
-                color: "rgba(100, 0, 123, 1)",
-                textShadow: "0px 0px 8px rgb(255, 255, 255)",
-                boxShadow: "0px 0px 8px rgb(255, 255, 255)",
-              }}
-            >
+            <motion.button variants={buttonVariants} whileHover="hover">
               Next
             </motion.button>
           </Link>

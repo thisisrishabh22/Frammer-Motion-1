@@ -29,6 +29,7 @@ const childVariants = {
 };
 
 const Order = ({ pizza }) => {
+  document.title = "Thank you | Pizza Joint";
   return (
     <motion.div
       variants={containerVariants}
